@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Poopathi R — Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Instrument+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f2ee;
+    --white: #fdfcfa;
+    --ink: #1a1814;
+    --mid: #6b6760;
+    --light: #c8c4be;
+    --accent: #2a5c45;
+    --accent-bg: #e8f0ec;
+    --border: #e2ddd8;
+    --serif: 'Instrument Serif', serif;
+    --sans: 'Instrument Sans', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+    z-index: 100;
+  }
+  .logo {
+    font-family: var(--serif);
+    font-size: 18px;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 28px; }
+  .nav-links a {
+    font-size: 13px;
+    color: var(--mid);
+    text-decoration: none;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-badge {
+    font-size: 12px;
+    background: var(--accent-bg);
+    color: var(--accent);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+
+  /* ── LAYOUT ── */
+  .container { max-width: 860px; margin: 0 auto; padding: 0 40px; }
+
+  /* ── HERO ── */
+  #hero {
+    padding: 80px 0 72px;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 40px;
+    align-items: end;
+  }
+  .hero-greeting {
+    font-size: 13px;
+    color: var(--mid);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .hero-greeting::before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 1px;
+    background: var(--light);
+  }
+  .hero-name {
+    font-family: var(--serif);
+    font-size: clamp(44px, 7vw, 80px);
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+  .hero-name em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero-bio {
+    font-size: 15px;
+    color: var(--mid);
+    line-height: 1.7;
+    max-width: 440px;
+    margin-bottom: 32px;
+  }
+  .hero-bio strong { color: var(--ink); font-weight: 500; }
+  .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 20px;
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: all .2s;
+    cursor: pointer;
+    border: none;
+  }
+  .btn-dark {
+    background: var(--ink);
+    color: var(--white);
+  }
+  .btn-dark:hover { background: #2c2820; }
+  .btn-outline {
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--border);
+  }
+  .btn-outline:hover { background: var(--white); border-color: var(--light); }
+
+  .hero-right {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-end;
+    padding-bottom: 4px;
+  }
+  .stat-row {
+    text-align: right;
+    padding: 12px 16px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    min-width: 130px;
+  }
+  .stat-val {
+    font-family: var(--serif);
+    font-size: 26px;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .stat-lbl {
+    font-size: 11px;
+    color: var(--mid);
+    margin-top: 2px;
+  }
+
+  /* ── SECTIONS ── */
+  section { padding: 72px 0; border-bottom: 1px solid var(--border); }
+  section:last-of-type { border-bottom: none; }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--mid);
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── SKILLS ── */
+  .skills-wrap { display: flex; flex-direction: column; gap: 20px; }
+  .skill-row { display: grid; grid-template-columns: 140px 1fr; gap: 16px; align-items: start; }
+  .skill-cat {
+    font-size: 12px;
+    color: var(--mid);
+    padding-top: 5px;
+  }
+  .skill-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+  .pill {
+    font-size: 13px;
+    padding: 5px 12px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    color: var(--ink);
+    transition: all .2s;
+  }
+  .pill:hover {
+    background: var(--accent-bg);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .pill.highlight {
+    background: var(--accent-bg);
+    border-color: transparent;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  /* ── PROJECTS ── */
+  .projects-list { display: flex; flex-direction: column; gap: 1px; }
+  .proj {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 28px 32px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 24px;
+    transition: box-shadow .2s;
+    margin-bottom: 12px;
+  }
+  .proj:hover {
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+  }
+  .proj-num {
+    font-size: 11px;
+    color: var(--light);
+    font-weight: 500;
+    margin-bottom: 8px;
+    letter-spacing: .06em;
+  }
+  .proj-title {
+    font-family: var(--serif);
+    font-size: 24px;
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+  .proj-desc {
+    font-size: 14px;
+    color: var(--mid);
+    line-height: 1.65;
+    margin-bottom: 16px;
+    max-width: 520px;
+  }
+  .proj-tech { display: flex; flex-wrap: wrap; gap: 5px; }
+  .tech {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 9px;
+    background: var(--accent-bg);
+    color: var(--accent);
+    border-radius: 4px;
+  }
+  .proj-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+  .proj-link {
+    width: 36px; height: 36px;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--mid);
+    text-decoration: none;
+    font-size: 15px;
+    transition: all .2s;
+    flex-shrink: 0;
+  }
+  .proj-link:hover {
+    background: var(--ink);
+    color: var(--white);
+    border-color: var(--ink);
+  }
+  .proj-metrics {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-end;
+  }
+  .proj-metric {
+    text-align: right;
+  }
+  .metric-n {
+    font-family: var(--serif);
+    font-size: 20px;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .metric-l {
+    font-size: 10px;
+    color: var(--mid);
+    margin-top: 1px;
+  }
+
+  /* ── EXPERIENCE / TIMELINE ── */
+  .timeline { display: flex; flex-direction: column; }
+  .tl-item {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 24px;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .tl-item:last-child { border-bottom: none; }
+  .tl-date { font-size: 12px; color: var(--mid); padding-top: 3px; line-height: 1.5; }
+  .tl-role {
+    font-family: var(--serif);
+    font-size: 20px;
+    line-height: 1.2;
+    margin-bottom: 3px;
+  }
+  .tl-org {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--accent);
+    margin-bottom: 10px;
+    letter-spacing: .02em;
+  }
+  .tl-desc { font-size: 14px; color: var(--mid); line-height: 1.65; }
+
+  /* ── CONTACT ── */
+  #contact { padding: 80px 0; text-align: center; }
+  .contact-title {
+    font-family: var(--serif);
+    font-size: clamp(36px, 5vw, 60px);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin-bottom: 16px;
+  }
+  .contact-title em { font-style: italic; color: var(--accent); }
+  .contact-sub {
+    font-size: 15px;
+    color: var(--mid);
+    margin-bottom: 36px;
+    max-width: 360px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.7;
+  }
+  .contact-email {
+    display: inline-block;
+    font-family: var(--serif);
+    font-size: 22px;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--light);
+    padding-bottom: 3px;
+    margin-bottom: 36px;
+    transition: border-color .2s, color .2s;
+  }
+  .contact-email:hover { color: var(--accent); border-color: var(--accent); }
+  .socials { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+  .social-btn {
+    font-size: 13px;
+    font-weight: 500;
+    padding: 9px 18px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--mid);
+    text-decoration: none;
+    background: var(--white);
+    transition: all .2s;
+  }
+  .social-btn:hover { color: var(--ink); border-color: var(--light); }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--mid);
+    max-width: 100%;
+  }
+
+  /* ── REVEAL ── */
+  .fade {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity .6s ease, transform .6s ease;
+  }
+  .fade.in { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 680px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .hero-inner { grid-template-columns: 1fr; padding: 0 20px; }
+    .hero-right { flex-direction: row; align-items: flex-start; }
+    .stat-row { min-width: 100px; }
+    .container { padding: 0 20px; }
+    section { padding: 48px 0; }
+    .skill-row { grid-template-columns: 1fr; gap: 8px; }
+    .proj { grid-template-columns: 1fr; }
+    .proj-right { flex-direction: row; }
+    .tl-item { grid-template-columns: 1fr; gap: 6px; }
+    footer { flex-direction: column; gap: 6px; padding: 16px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="logo">Poopathi R.</a>
+  <div class="nav-links">
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#experience">Experience</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <span class="nav-badge">Open to work</span>
+</nav>
+
+<!-- HERO -->
+<div id="hero">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-greeting">MCA Graduate · Chennai, India</div>
+      <h1 class="hero-name">Poopathi<br><em></em></h1>
+      <p class="hero-bio">
+        I build <strong>mobile apps and web experiences</strong> that feel good to use.
+        Specialised in Flutter and Python, with a background in
+        UI/UX design and machine learning.
+      </p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn btn-dark">View projects →</a>
+        <a href="#contact" class="btn btn-outline">Get in touch</a>
+        <a href="https://drive.google.com/file/d/1VU_Uc7XPS0XaE7CxdD7prlq47dXG36Z4/view?usp=sharing" class="btn btn-outline">Download CV</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="stat-row">
+        <div class="stat-val">MCA</div>
+        <div class="stat-lbl">Post graduate</div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-val">2+</div>
+        <div class="stat-lbl">Projects shipped</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="container">
+    <div class="section-label">Skills</div>
+    <div class="skills-wrap fade">
+      <div class="skill-row">
+        <div class="skill-cat">Frontend</div>
+        <div class="skill-pills">
+          <span class="pill">HTML</span>
+          <span class="pill">CSS</span>
+          <span class="pill">JavaScript</span>
+        </div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-cat">Backend</div>
+        <div class="skill-pills">
+          <span class="pill highlight">Python</span>
+          <span class="pill">Java</span>
+          <span class="pill">REST APIs</span>
+          <span class="pill">MySQL</span>
+          <span class="pill">MongoDB</span>
+        </div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-cat">Mobile</div>
+        <div class="skill-pills">
+          <span class="pill highlight">Flutter</span>
+          <span class="pill highlight">Dart</span>
+          <span class="pill">Firebase</span>
+        </div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-cat">AI / ML</div>
+        <div class="skill-pills">
+          <span class="pill highlight">TensorFlow Lite</span>
+          <span class="pill">NumPy</span>
+          <span class="pill">Kaggle</span>
+        </div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-cat">Design & Tools</div>
+        <div class="skill-pills">
+          <span class="pill">Figma</span>
+          <span class="pill">UI/UX</span>
+          <span class="pill">Git</span>
+          <span class="pill">GitHub</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="container">
+    <div class="section-label">Projects</div>
+    <div class="projects-list fade">
+
+      <div class="proj">
+        <div>
+          <div class="proj-num">01 — Featured Project</div>
+          <h3 class="proj-title">Pest Identification Mobile App</h3>
+          <p class="proj-desc">
+            A real-time pest detection app built with Flutter, powered by a custom TensorFlow Lite model I trained on a Kaggle dataset. Integrated Firebase Authentication and Cloud Storage for secure, fast access. Deployed end-to-end on Android.
+          </p>
+          <div class="proj-tech">
+            <span class="tech">Flutter</span>
+            <span class="tech">TensorFlow Lite</span>
+            <span class="tech">Firebase</span>
+            <span class="tech">Dart</span>
+            <span class="tech">Kaggle</span>
+          </div>
+        </div>
+        <div class="proj-right">
+          <a href="#" class="proj-link" title="GitHub">↗</a>
+          <div class="proj-metrics">
+            <div class="proj-metric">
+              <div class="metric-n">+25%</div>
+              <div class="metric-l">Accuracy</div>
+            </div>
+            <div class="proj-metric">
+              <div class="metric-n">−20%</div>
+              <div class="metric-l">Fetch time</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="proj" style="opacity:.6">
+        <div>
+          <div class="proj-num">02 — Coming soon</div>
+          <h3 class="proj-title">Your Next Web Project</h3>
+          <p class="proj-desc">
+            Add a Python/Django or React web app here. Even a simple deployed project dramatically increases your interview call rate. See the suggestions in the action plan.
+          </p>
+          <div class="proj-tech">
+            <span class="tech">Python</span>
+            <span class="tech">Django</span>
+            <span class="tech">HTML/CSS</span>
+            <span class="tech">MySQL</span>
+          </div>
+        </div>
+        <div class="proj-right">
+          <a href="#" class="proj-link">↗</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="container">
+    <div class="section-label">Experience & Education</div>
+    <div class="timeline fade">
+      <div class="tl-item">
+        <div class="tl-date">May 2022 –<br>May 2024</div>
+        <div>
+          <div class="tl-role">Master of Computer Applications</div>
+          <div class="tl-org">Annamalai University, Chidambaram</div>
+          <p class="tl-desc">Studied software engineering, data structures, mobile development and database systems. Built the Pest Identification App as a capstone — integrating Flutter, Firebase and a custom ML model.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">Jun 2019 –<br>Apr 2022</div>
+        <div>
+          <div class="tl-role">B.Sc Physics</div>
+          <div class="tl-org">Manonmaniam Sundaranar University, Tirunelveli</div>
+          <p class="tl-desc">Built strong analytical and mathematical foundations. This scientific background translates into structured, logical problem-solving in software development.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">Jun 2023 –<br>Aug 2023</div>
+        <div>
+          <div class="tl-role">UI/UX Design Intern</div>
+          <div class="tl-org">Moobees Design Studio</div>
+          <p class="tl-desc">Worked on wireframes, user flows and interactive prototypes for client digital products. Developed a design-first mindset that now informs every application I build.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <h2 class="contact-title">Let's build<br><em>something together</em></h2>
+    <p class="contact-sub">Open to full-time roles and freelance projects. Based in Chennai, available immediately.</p>
+    <a href="mailto:poopathi810r@gmail.com" class="contact-email">poopathi810r@gmail.com</a>
+    <div class="socials">
+      <a href="https://www.linkedin.com/in/poopathi-r-5950a6254" class="social-btn">LinkedIn</a>
+      <a href="https://github.com/poopathi08" class="social-btn">GitHub</a>
+      <a href="#" class="social-btn">HackerRank</a>
+      <a href="#" class="social-btn">LeetCode</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Poopathi — Chennai, India</span>
+  <span>Built with HTML · CSS · JavaScript</span>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade').forEach(el => obs.observe(el));
+
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const t = document.querySelector(a.getAttribute('href'));
+      if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
+    });
+  });
+</script>
+</body>
+</html>
